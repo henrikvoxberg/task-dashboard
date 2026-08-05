@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { act, render } from '@testing-library/react';
-import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { TaskProvider, useTaskContext } from './TaskContext';
 
 vi.mock('../common/utils/DataHydrationService', () => ({
@@ -12,7 +12,13 @@ vi.mock('../common/utils/DataHydrationService', () => ({
 
 describe('TaskProvider', () => {
   beforeEach(() => {
-    vi.spyOn(Math, 'random').mockReturnValue(0.1234);
+    vi.spyOn(Math, 'random')
+      .mockReturnValueOnce(0.1234)
+      .mockReturnValueOnce(0.5678);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   test('keeps the context value stable across unrelated parent renders', () => {
