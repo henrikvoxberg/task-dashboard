@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useState, useContext, useMemo } from 'react';
 import { DataHydrationService } from '../common/utils/DataHydrationService';
 
 // Create the task context
@@ -15,16 +15,13 @@ export const TaskProvider = ({ children }) => {
       ? DataHydrationService.getInitialTasks() 
       : [];
   });
-  const [stats, setStats] = useState({ total: 0, completed: 0, remaining: 0 });
-
-  useEffect(() => {
-    // Update stats whenever tasks change
+  const stats = useMemo(() => {
     const completed = tasks.filter(task => task.isCompleted).length;
-    setStats({
+    return {
       total: tasks.length,
       completed,
       remaining: tasks.length - completed
-    });
+    };
   }, [tasks]);
 
   const addTask = (task) => {
