@@ -75,6 +75,10 @@ describe('TaskProvider', () => {
   });
 
   test('preserves optional task ID behavior for bulk actions', () => {
+    Math.random
+      .mockReturnValueOnce(0.1234)
+      .mockReturnValueOnce(0.5678);
+
     let context;
 
     function Consumer() {
